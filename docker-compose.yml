@@ -9,4 +9,4 @@ services:
   application:
     image: php:fpm
     volumes:
-      - ./app:/app
+      - .:/app

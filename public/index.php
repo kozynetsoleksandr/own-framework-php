@@ -1,27 +1,29 @@
 <?php
 
 $query = trim($_SERVER['REQUEST_URI'], '/');
-const WWW = __DIR__;
-const CORE = WWW;
+
+define( 'WWW', __DIR__);
+define( 'CORE', dirname(__DIR__) . '/vendor/core');
+define( 'ROOT', dirname(__DIR__, 2));
+define( 'APP', dirname(__DIR__));
 
 
 require_once('../vendor/core/Router.php');
 require_once('../vendor/libs/functions.php');
-// require_once('../app/controller/Main.php');
-// require_once('../app/controller/Posts.php');
-// require_once('../app/controller/PostsNew.php');
 
 
-spl_autoload_register(function() {
-
+spl_autoload_register(function($class) {
+    $file = '..'  . APP . "/controllers/$class.php";
+    if (is_file($file)) {
+        require_once $file;
+    }
 });
 
-dd(gettype(CORE));
-dd(CORE);
+dd(APP);
 
+Router::add('^pages/?(?P<controller>[a-z-]+)?$', ['controller' => 'Posts']);
 
-
-
+//default roots
 Router::add('^$', ['controller' => 'Main', 'action' => 'index']);
 Router::add('^(?P<controller>[a-z-]+)/?(?P<action>[a-z-]+)?$');
 
