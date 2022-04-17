@@ -2,5 +2,7 @@
 
 function dd($arr)
 {
-    echo "<pre>" . print_r($arr, true) . "</pre>";
+    echo "<pre>";
+    var_dump($arr); 
+    echo "</pre>";
 }

@@ -1,17 +1,34 @@
 <?php
 
-
 $query = trim($_SERVER['REQUEST_URI'], '/');
+const WWW = __DIR__;
+const CORE = WWW;
+
 
 require_once('../vendor/core/Router.php');
 require_once('../vendor/libs/functions.php');
+// require_once('../app/controller/Main.php');
+// require_once('../app/controller/Posts.php');
+// require_once('../app/controller/PostsNew.php');
 
-Router::add('posts/add', ['controller' => 'Posts', 'action' => 'add']);
-Router::add('posts/', ['controller' => 'Posts', 'action' => 'index']);
-Router::add('', ['controller' => 'Main', 'action' => 'index']);
 
-if (Router::matchRoute($query)) {
-    dd(Router::getRoute());
-} else {
-    echo '404';
-}
+spl_autoload_register(function() {
+
+});
+
+dd(gettype(CORE));
+dd(CORE);
+
+
+
+
+Router::add('^$', ['controller' => 'Main', 'action' => 'index']);
+Router::add('^(?P<controller>[a-z-]+)/?(?P<action>[a-z-]+)?$');
+
+Router::dispatch($query);
+
+// if (Router::matchRoute($query)) {
+//     // dd(Router::getRoutes());
+// } else {
+//     echo '404';
+// }
